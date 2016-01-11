@@ -10,8 +10,8 @@ import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.feature.{HashingTF, IDF}
 
-case class Classify(word: String)
-case class Result(label: Double)
+case class Classify(label: Double)
+case class Query(word: String)
 
 class MyScalatraServlet extends MyScalatraWebAppStack {
   val conf = new SparkConf().setAppName("simple application").setMaster("local")
@@ -30,10 +30,10 @@ class MyScalatraServlet extends MyScalatraWebAppStack {
   post("/classify") {
     parsedBody match {
       case json => {
-        val word: Classify = json.extract[Classify]
-        val test_tf = htf.transform(List(word))
+        val words: Query = json.extract[Query]
+        val test_tf = htf.transform(words.word.split(","))
         val test = model.predict(test_tf)
-        Result(test)
+        Classify(test)
       }
       case _ => halt(400, "unknown format")
     }
