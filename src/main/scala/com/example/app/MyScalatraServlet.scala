@@ -25,7 +25,6 @@ class MyScalatraServlet extends MyScalatraWebAppStack {
   get("/") {
     <html>
       <body>
-        <h1>Hello, World!</h1>
         <p>{test}</p>
       </body>
     </html>
