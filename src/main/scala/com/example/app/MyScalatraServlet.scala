@@ -10,6 +10,9 @@ import org.apache.spark.mllib.linalg.Vectors
 import org.apache.spark.mllib.regression.LabeledPoint
 import org.apache.spark.mllib.feature.{HashingTF, IDF}
 
+case class Classify(word: String)
+case class Result(label: Double)
+
 class MyScalatraServlet extends MyScalatraWebAppStack {
   val conf = new SparkConf().setAppName("simple application").setMaster("local")
   val sc = new SparkContext(conf)
@@ -18,15 +21,21 @@ class MyScalatraServlet extends MyScalatraWebAppStack {
   val htf = new HashingTF(1000)
   val tf = htf.transform(texts)
   val model = NaiveBayesModel.load(sc, "model")
-  val words = List("武将"," 大名", "天下人", "関白", "太閤")
-  val test_tf = htf.transform(words)
-  val test = model.predict(test_tf)
+  // val words = List("武将"," 大名", "天下人", "関白", "太閤")
+  // val test_tf = htf.transform(words)
+  // val test = model.predict(test_tf)
 
-  get("/") {
-    <html>
-      <body>
-        <p>{test}</p>
-      </body>
-    </html>
+  // how to use curl
+  // curl --noproxy 127.0.0.1,get.this -H "Content-Type: application/json" -d '{"word":"関白"}' http://127.0.0.1:8080/classify
+  post("/classify") {
+    parsedBody match {
+      case json => {
+        val word: Classify = json.extract[Classify]
+        val test_tf = htf.transform(List(word))
+        val test = model.predict(test_tf)
+        Result(test)
+      }
+      case _ => halt(400, "unknown format")
+    }
   }
 }
