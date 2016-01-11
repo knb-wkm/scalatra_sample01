@@ -70,3 +70,6 @@ jrebel.lic
 
 # spark data
 /model/
+
+# stack trace?
+hs_err_pid*
