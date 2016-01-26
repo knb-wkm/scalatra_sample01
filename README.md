@@ -1,11 +1,8 @@
-# My Scalatra Web App #
-
-## Build & Run ##
+# Bayes classify API (scalatra)
 
 ```sh
-$ cd My_Scalatra_Web_App
 $ ./sbt
-> container:start
+> jetty:start
 > browse
 ```
 
