@@ -33,8 +33,8 @@ object MyScalatraWebAppBuild extends Build {
         "ch.qos.logback" % "logback-classic" % "1.1.3" % "runtime",
         "org.eclipse.jetty" % "jetty-webapp" % "9.2.14.v20151106" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0" % "provided",
-	"org.apache.spark" %% "spark-core" % "1.4.1",
-	"org.apache.spark" %% "spark-mllib" % "1.4.1",
+	"org.apache.spark" %% "spark-core" % "1.5.0",
+	"org.apache.spark" %% "spark-mllib" % "1.5.0",
 	"org.atilika.kuromoji" % "kuromoji" % "0.7.7"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
